@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZoblinkGO | Full Engineering Suite</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --cyan: #00e5ff;
+            --white: #ffffff;
+            --card-bg: #161616;
+            --transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: var(--bg); color: var(--white); overflow-x: hidden; scroll-behavior: smooth; }
+
+        /* NAVIGATION BAR */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 8%; height: 90px; background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px); position: fixed; width: 100%; z-index: 1000;
+            border-bottom: 1px solid rgba(0, 229, 255, 0.1);
+        }
+        .logo { font-size: 1.8rem; font-weight: 800; color: var(--cyan); letter-spacing: 3px; }
+        .nav-links { display: flex; list-style: none; align-items: center; }
+        .nav-links li { margin-left: 30px; position: relative; }
+        .nav-links a { text-decoration: none; color: var(--white); font-weight: 500; transition: 0.3s; }
+        
+        /* Dropdown Contact */
+        .dropdown-content {
+            display: none; position: absolute; top: 100%; right: 0;
+            background: #111; min-width: 220px; border: 1px solid var(--cyan);
+            border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .dropdown:hover .dropdown-content { display: block; animation: fadeIn 0.3s; }
+        .dropdown-content a { padding: 12px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #222; }
+        .dropdown-content a i { color: var(--cyan); font-size: 1.2rem; }
+        .dropdown-content a:hover { background: var(--cyan); color: #000; }
+
+        /* HERO SECTION - SERVICES FIRST THEN PHOTO */
+        .hero { 
+            min-height: 100vh; display: flex; align-items: center; 
+            padding: 120px 8% 60px; justify-content: space-between; gap: 50px;
+        }
+        .hero-text { flex: 1.2; }
+        .hero-text h1 { font-size: 3.5rem; margin-bottom: 20px; text-transform: uppercase; }
+        .hero-text h1 span { color: var(--cyan); }
+        
+        .service-intro { display: flex; gap: 20px; margin: 30px 0; }
+        .s-box { background: #111; padding: 20px; border-radius: 10px; border-top: 3px solid var(--cyan); flex: 1; }
+        .s-box i { color: var(--cyan); font-size: 1.8rem; margin-bottom: 10px; }
+
+        /* Profile Photo with Slide in Animation */
+        .profile-area { flex: 0.8; position: relative; }
+        .profile-img-container {
+            width: 100%; max-width: 400px; height: 500px; 
+            border: 2px solid var(--cyan); border-radius: 30px; overflow: hidden;
+            animation: slideFromRight 1.5s ease-out; background: #1a1a1a;
+        }
+        .profile-img-container img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* BULKY SLIDE IMAGES (Middle Section) */
+        .slide-images-section { display: flex; justify-content: center; gap: 20px; padding: 50px 0; overflow: hidden; }
+        .slide-box { width: 450px; height: 300px; border-radius: 20px; border: 1px solid var(--cyan); overflow: hidden; }
+        .slide-box img { width: 100%; height: 100%; object-fit: cover; }
+        .left-img { animation: slideFromLeft 1.5s forwards; }
+        .right-img { animation: slideFromRight 1.5s forwards; }
+
+        /* PROJECTS GRID (Bulky) */
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; padding: 0 8% 100px; }
+        .p-card { 
+            background: var(--card-bg); padding: 30px; border-radius: 20px; border: 1px solid #333;
+            transition: var(--transition); opacity: 0; transform: translateY(50px);
+        }
+        .p-card:hover { border-color: var(--cyan); transform: scale(1.05); cursor: pointer; }
+        .p-card i { font-size: 3rem; color: var(--cyan); margin-bottom: 20px; }
+        .p-card.reveal { opacity: 1; transform: translateY(0); }
+
+        /* ABOUT & COMPANY SECTIONS */
+        .flex-section { display: flex; align-items: center; padding: 100px 8%; gap: 60px; }
+        .flex-img { flex: 1; border-radius: 20px; overflow: hidden; border: 2px solid var(--cyan); }
+        .flex-img img { width: 100%; display: block; }
+        .flex-text { flex: 1; }
+        .flex-text h2 { font-size: 2.8rem; color: var(--cyan); margin-bottom: 20px; }
+
+        /* SKILLS TAGS */
+        .skills-wrap { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+        .tag { border: 1px solid var(--cyan); padding: 8px 18px; border-radius: 50px; font-size: 14px; color: var(--cyan); font-weight: bold; }
+
+        /* FOOTER */
+        footer { background: #050505; padding: 60px 8%; text-align: center; border-top: 1px solid #222; }
+        .f-icons i { font-size: 1.5rem; margin: 0 15px; color: var(--white); cursor: pointer; transition: 0.3s; }
+        .f-icons i:hover { color: var(--cyan); }
+
+        /* KEYFRAMES */
+        @keyframes slideFromLeft { 0% { transform: translateX(-100%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
+        @keyframes slideFromRight { 0% { transform: translateX(100%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        @media (max-width: 900px) {
+            .hero, .flex-section { flex-direction: column; text-align: center; }
+            .slide-images-section { flex-direction: column; align-items: center; }
+            .slide-box { width: 90%; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">ZoblinkGO</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#about">About</a></li>
+            <li class="dropdown">
+                <a class="dropbtn">Contact <i class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-content">
+                    <a href="#"><i class="fab fa-github"></i> GitHub</a>
+                    <a href=""><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                    <a href="#"><i class="fab fa-youtube"></i> YouTube</a>
+                    <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+                    <a href="#"><i class="fab fa-telegram"></i> Telegram</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="hero-text">
+            <h1>Expert <span>Training</span> & Software Construction</h1>
+            <p>Muna koyar da kwarewa a fannin coding sannan muna gina ingantattun systems na zamani.</p>
+            <div class="service-intro">
+                <div class="s-box">
+                    <i class="fas fa-user-graduate"></i>
+                    <h3>Professional Training</h3>
+                    <p>Koyarwa ta musamman akan Big Data da Software Engineering.</p>
+                </div>
+                <div class="s-box">
+                    <i class="fas fa-code-branch"></i>
+                    <h3>System Building</h3>
+                    <p>Gina Web apps da Mobile apps masu karfi da sauri.</p>
+                </div>
+            </div>
+        </div>
+        <div class="profile-area">
+            <div class="profile-img-container">
+                <img src="https://via.placeholder.com/400x500/111111/00e5ff?text=ZoblinkGO+Lead" alt="Lead Engineer">
+            </div>
+        </div>
+    </section>
+
+    <div class="slide-images-section">
+        <div class="slide-box left-img">
+            <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1000" alt="Work 1">
+        </div>
+        <div class="slide-box right-img">
+            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1000" alt="Work 2">
+        </div>
+    </div>
+
+    <h2 style="text-align: center; font-size: 2.5rem; margin: 80px 0 40px; color: var(--cyan);">Our Engineering Portfolio</h2>
+    <div class="grid-container" id="projects">
+        <div class="p-card"><i class="fas fa-globe"></i><h3>Web Application</h3><p>Enterprise scalable platforms for big data management.</p></div>
+        <div class="p-card"><i class="fas fa-mobile-alt"></i><h3>Mobile App</h3><p>iOS and Android high-performance applications.</p></div>
+        <div class="p-card"><i class="fas fa-chart-line"></i><h3>Online Result System</h3><p>Automated grading and result checking engine.</p></div>
+        <div class="p-card"><i class="fas fa-user-secret"></i><h3>Password Analyser</h3><p>Security tool for testing credential vulnerabilities.</p></div>
+        <div class="p-card"><i class="fas fa-satellite"></i><h3>Tracking System</h3><p>GPS based real-time asset tracking solutions.</p></div>
+        <div class="p-card"><i class="fas fa-file-alt"></i><h3>Community Report</h3><p>Platform for public feedback and incident reporting.</p></div>
+    </div>
+
+    <section class="flex-section" id="about">
+        <div class="flex-text">
+            <h2>About Me</h2>
+            <p>I am a Software Engineer focused on solving complex problems. Through ZoblinkGO, I provide end-to-end solutions for businesses and individuals looking to scale digitally.</p>
+            <div class="skills-wrap">
+                <span class="tag">Python</span><span class="tag">React</span><span class="tag">Node.js</span><span class="tag">Big Data</span><span class="tag">Cyber Security</span>
+            </div>
+        </div>
+        <div class="flex-img">
+            <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1000" alt="Engineer Coding">
+        </div>
+    </section>
+
+    <section class="flex-section">
+        <div class="flex-img">
+            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1000" alt="Team Work">
+        </div>
+        <div class="flex-text">
+            <h2>How We Work</h2>
+            <p>Our methodology is agile. We analyze your data, architect the solution, and build with security as our first priority. We don't just write code; we engineer systems.</p>
+        </div>
+    </section>
+
+    <footer>
+        <h2 style="color: var(--cyan); margin-bottom: 20px;">ZoblinkGO</h2>
+        <p>&copy; 2026 Engineering The Future. All Rights Reserved.</p>
+        <div class="f-icons">
+            <i class="fab fa-github"></i>
+            <i class="fab fa-whatsapp"></i>
+            <i class="fab fa-linkedin"></i>
+            <i class="fab fa-facebook"></i>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll Reveal Effect for bulky projects
+        window.addEventListener('scroll', () => {
+            const reveals = document.querySelectorAll('.p-card');
+            reveals.forEach(el => {
+                let windowHeight = window.innerHeight;
+                let revealTop = el.getBoundingClientRect().top;
+                if (revealTop < windowHeight - 100) {
+                    el.classList.add('reveal');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
